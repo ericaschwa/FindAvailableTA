@@ -8,7 +8,7 @@ Takes optional day and time argument; if none is given, defaults to current day 
 
 python findta.py
 OR
-python findta.py <day> <time>
+python findta.py `day` `time`
 
 `day` must be one of the following:
 - `mon`
