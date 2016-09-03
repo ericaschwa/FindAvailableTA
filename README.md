@@ -7,7 +7,9 @@ Takes optional day and time argument; if none is given, defaults to current day 
 ## Usage:
 
 python findta.py
+
 OR
+
 python findta.py `day` `time`
 
 `day` must be one of the following:
@@ -19,4 +21,4 @@ python findta.py `day` `time`
 - `sat`
 - `sun`
 
-`time` is a time given in military format, in EST. Examples include 0800 and 1615.
+`time` is a time given in military format, in EST. Examples include `0800` and `1615`.
