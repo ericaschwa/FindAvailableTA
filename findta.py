@@ -8,10 +8,18 @@ import lxml
 from lxml import html
 import requests
 
-def timesInDay(day):
-    print day.split()[1:]
 
-def getTimes(tree):
+def printTas(tas):
+    """
+    Given a list of TAs, prints the list
+    """
+    if len(tas) > 0:
+        print "The TAs on duty are:"
+        for ta in tas:
+            print ta
+
+
+def getTimes(tree, day):
     """
     Give the html tree of a webpage, finds the listing of TA availability and
     returns a dict containing this information
@@ -21,25 +29,18 @@ def getTimes(tree):
     pres = tree.xpath('//pre/text()')
 
     tas = pres[0].split('Schedule by TA')[1].split('\n')[2:-2]
-    tadict = {}
-    for ta in tas:
-        tadict[ta.split(':')[0].split()[0]] = ta.split(':')[1].split(', ')
+    timedict = {'M': {}, 'T': {}, 'W': {}, 'R': {}, 'F': {}, 'U': {}}
 
-    # hard-coded for now, will be from site once this info is available
-    # times for the given day
-    return {
-        '0900': 'Erica',
-        '1030': 'Foo',
-        '1200': 'Bar',
-        '1330': 'FooBar',
-        '1500': 'LALAFooFoo',
-        '1630': 'DinnerTimeTA',
-        '1800': 'NapTimeTA',
-        '1930': 'Chaos',
-        '2100': 'TAHERE',
-        '2230': 'TANOTHERE',
-        '2400': 'LOLNO'
-    }
+    for ta in tas:
+        taName = ta.split(':')[0].split()[0]
+        taTimes = ta.split(':')[1].split(', ')
+        for time in taTimes:
+            if time[1:] in timedict[time[0]]:
+                timedict[time[0]][time[1:]].append(taName)
+            else:
+                timedict[time[0]][time[1:]] = [taName]
+
+    return timedict[day]
 
 
 def findTA(day, timeOfDay):
@@ -49,7 +50,7 @@ def findTA(day, timeOfDay):
     """
     page = requests.get('http://www.cs.tufts.edu/comp/15/admin.shtml')
     tree = html.fromstring(page.content)
-    times = getTimes(tree)
+    times = getTimes(tree, day)
 
     for time in times.keys():
         if time <= timeOfDay:
@@ -77,10 +78,11 @@ def main():
         timeOfDay = EST_time.time().isoformat().split(':')[0] + \
                     EST_time.time().isoformat().split(':')[1]
 
-        weekdays = ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat']
+        weekdays = ['U', 'M', 'T', 'W', 'R', 'F', 'S']
         day = weekdays[EST_time.weekday()]
 
-    print findTA(day, timeOfDay)
+    tas = findTA(day, timeOfDay)
+    printTas(tas)
 
 
 if __name__ == "__main__":

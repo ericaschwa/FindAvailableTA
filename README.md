@@ -13,12 +13,12 @@ OR
 python findta.py `day` `time`
 
 `day` must be one of the following:
-- `mon`
-- `tues`
-- `wed`
-- `thurs`
-- `fri`
-- `sat`
-- `sun`
+- `M`
+- `T`
+- `W`
+- `R`
+- `F`
+- `S`
+- `U`
 
 `time` is a time given in military format, in EST. Examples include `0800` and `1615`.
