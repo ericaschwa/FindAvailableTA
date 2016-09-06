@@ -13,10 +13,12 @@ def printTas(tas):
     """
     Given a list of TAs, prints the list
     """
-    if len(tas) > 0:
+    if tas is not None and len(tas) > 0:
         print "The TAs on duty are:"
         for ta in tas:
             print ta
+    else:
+        print "There are no TAs on duty on this day at this time."
 
 
 def getTimes(tree, day):
