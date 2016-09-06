@@ -8,11 +8,23 @@ import lxml
 from lxml import html
 import requests
 
+def timesInDay(day):
+    print day.split()[1:]
+
 def getTimes(tree):
     """
     Give the html tree of a webpage, finds the listing of TA availability and
     returns a dict containing this information
     """
+
+    # http://docs.python-guide.org/en/latest/scenarios/scrape/
+    pres = tree.xpath('//pre/text()')
+
+    tas = pres[0].split('Schedule by TA')[1].split('\n')[2:-2]
+    tadict = {}
+    for ta in tas:
+        tadict[ta.split(':')[0].split()[0]] = ta.split(':')[1].split(', ')
+
     # hard-coded for now, will be from site once this info is available
     # times for the given day
     return {
