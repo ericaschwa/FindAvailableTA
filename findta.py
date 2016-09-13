@@ -80,7 +80,7 @@ def main():
         timeOfDay = EST_time.time().isoformat().split(':')[0] + \
                     EST_time.time().isoformat().split(':')[1]
 
-        weekdays = ['U', 'M', 'T', 'W', 'R', 'F', 'S']
+        weekdays = ['M', 'T', 'W', 'R', 'F', 'S', 'U']
         day = weekdays[EST_time.weekday()]
 
     tas = findTA(day, timeOfDay)
